@@ -71,7 +71,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "lint:server": "eslint --quiet -c config/eslint.server.config.js server/**/*.js",
-    "server": "nodemon --config config/nodemon.json scripts/serverEntry.js --exec 'npm run lint:server --silent && node'"
+    "server": "nodemon --config config/nodemon.json scripts/serverEntry.js --exec 'npm run lint:server --silent && node'",
+    "schema": "node scripts/schema.js"
   },
   "jest": {
     "collectCoverageFrom": [
