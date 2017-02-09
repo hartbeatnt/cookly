@@ -1,7 +1,11 @@
+process.env.NODE_ENV = "development";
+
 require('babel-register');
 require('babel-polyfill');
 var fs = require('fs');
 var path = require('path');
+
+var buildSchema = require('./buildSchema').buildSchema;
 
 /**
  *
@@ -35,21 +39,4 @@ require('../server/models/');
 
 var force = process.argv[2] === 'force';
 
-if (force) {
-  sequelize
-    .sync({ force: true })
-    .then(() => {
-      console.log('Dropped tables and recreated tables from server/models/');
-      process.exit();
-    });
-} else if (!force && process.argv.length === 2) {
-  sequelize
-    .sync()
-    .then(() => {
-       console.log("Created tables from server/models/");
-       process.exit();
-    });
-} else {
-  console.error('invalid number of arguments in schema.js. Exiting!');
-  process.exit();
-}
+buildSchema(sequelize, force);
