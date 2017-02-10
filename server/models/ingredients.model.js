@@ -8,7 +8,7 @@ const Ingredients = sequelize.define('ingredients', {
     allowNull: false,
     unique   : true,
   },
-  name_jp: {
+  name_en: {
     type: Sequelize.STRING,
   },
 });

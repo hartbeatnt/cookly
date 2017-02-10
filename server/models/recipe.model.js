@@ -7,9 +7,6 @@ const Recipe = sequelize.define('recipe', {
     type     : Sequelize.STRING,
     allowNull: false,
   },
-  name_jp: {
-    type: Sequelize.STRING,
-  },
   notes: {
     type     : Sequelize.STRING,
     allowNull: false,
