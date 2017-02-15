@@ -11,6 +11,7 @@ import rootReducer from './reducers';
 import 'normalize-css/normalize.css';
 import 'flexboxgrid/dist/flexboxgrid.css';
 import 'font-awesome/scss/font-awesome.scss';
+
 import './index.scss';
 
 ReactDOM.render(
