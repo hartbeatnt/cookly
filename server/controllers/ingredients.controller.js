@@ -1,4 +1,4 @@
-import { promisify } from 'bluebird';
+import { isRequestInvalid } from '../services/validation';
 import Ingredients from '../models/ingredients.model';
 
 
@@ -26,10 +26,24 @@ export const fetchIngredients = async (req, res) => {
 };
 
 export const createIngredient = async (req, res) => {
+  req.checkBody('name', 'Please provide an ingredient name').notEmpty();
+  if (await isRequestInvalid(req, res)) {
+    return;
+  }
   try {
+    const { name, name_en } = req.body;
+    let ingredient = await Ingredients.findOne({ 
+      where: { name } 
+    });
+    if (ingredient) {
+      return res.json({
+        success: false,
+        message: `Ingredient with name ${name} already exists!`,
+      });
+    }
     const newIngredient = await Ingredients.create({
-      name: req.body.name,
-      name_en: req.body.name_en
+      name: name,
+      name_en: name_en
     })
     res.json({
       success: true,
