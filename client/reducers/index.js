@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import test from './test';
+import ingredients from './ingredients';
 
 const rootReducer = combineReducers({
-  test
+  ingredients
 });
 
 export default rootReducer;
