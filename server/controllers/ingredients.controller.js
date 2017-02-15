@@ -41,4 +41,22 @@ export const createIngredient = async (req, res) => {
       err    : e.toString(),
     })
   }
+};
+
+export const deleteIngredient = async (req, res) => {
+  try {
+    const ingredientToDelete = await Ingredients.findOne({
+      where: {id: req.params.id}
+    })
+    const deletedIngredient = await ingredientToDelete.destroy()
+    res.json({
+      success: true,
+      deletedIngredient
+    })
+  } catch(e) {
+    res.json({
+      success: false,
+      err    : e.toString()
+    })
+  }
 }
