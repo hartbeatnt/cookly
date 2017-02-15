@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import Navbar from './components/navbar';
+import setIngredients from './actions/setIngredients';
 import './App.scss';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  componentDidMount() {
+    axios.get('/api/ingredients')
+      .then(resp => {
+        const { ingredients } = resp.data;
+        this.props.dispatch(setIngredients(ingredients));
+      })
+      .catch(e => console.error(e));
+  }
+
   render() {
     return (
       <div className="App">
@@ -18,6 +36,8 @@ class App extends Component {
       </div>
     );
   }
-}
+};
 
-export default App;
+const AppWrapper = connect()(App);
+
+export default AppWrapper;
