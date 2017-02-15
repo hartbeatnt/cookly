@@ -51,9 +51,17 @@ const User = sequelize.define('users', {
    *
    */
   hooks: {
+    /**
+     *
+     *  beforeCreate
+     *
+     *  - hash the user password before making a database entry
+     *
+     *  @url https://www.npmjs.com/package/bcrypt-nodejs
+     */
     beforeCreate: async (user) => {
       try {
-        user.password = await hashPassword(user.password, 2);
+        user.password = await hashPassword(user.password, null, null);
         return sequelize.Promise.resolve(user);
       } catch (e) {
         return sequelize.Promise.reject(e);
@@ -69,7 +77,7 @@ const User = sequelize.define('users', {
      *  comparePassword is a promisifed version of the bcrypt.compare function
      *  it resolves to a boolean value.
      *
-     *  @url https://www.npmjs.com/package/bcrypt#to-check-a-password
+     *  @url https://www.npmjs.com/package/bcrypt-nodejs
      */
     checkPassword: (inputPass, hashedPass) => comparePassword(inputPass, hashedPass),
 
