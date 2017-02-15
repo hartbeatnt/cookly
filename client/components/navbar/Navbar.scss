@@ -1,0 +1,52 @@
+@import '../../styles/modules/mq';
+@import '../../styles/modules/colors';
+
+.nav-container {
+  text-align: right;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li:first-child {
+    margin-left: 0;
+  }
+  
+  li {
+    display: inline;
+    margin-left: 25px;
+  }
+}
+
+.logo-container {
+  text-align: left;
+  color: pal('blue', 20);
+
+  .logo-icon {
+    font-size: 18px;
+
+    @include mq('medium') {
+      font-size: 22px;
+    }
+  }
+
+  h1 {
+    margin-left: 6px;
+    font-size: 32px;
+
+    @include mq('medium') {
+      margin-left: 10px;
+      font-size: 36px;
+    }
+  }
+
+  .fa-stack {
+    color: pal('blue', 20);
+  }
+}
+
+.logo-icon-wrapper {
+
+}
