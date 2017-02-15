@@ -43,6 +43,7 @@ class CreateRecipe extends Component {
       newState[name] = value;
       return newState;
     }, () => {
+      console.log('hi');
       if (name === "ingredients") {
         this.updateIngredientList(this.state[name]);
       }
@@ -56,21 +57,29 @@ class CreateRecipe extends Component {
             e.preventDefault();
             this.handleSubmit();
           }}>
-          <FormInput type="text" name="recipe-name" label="Recipe Name" onChange={this.handleInputChange} />
-
-          <label htmlFor="ingredients">Ingredients:</label>
-          <input type="text" name="ingredients" onChange={this.handleInputChange} />
-
+          <FormInput
+            type="text"
+            name="recipe-name"
+            label="Recipe Name"
+            onChange={this.handleInputChange} />
+          <FormInput
+            type="text"
+            name="ingredients"
+            label="Ingredients:"
+            onChange={this.handleInputChange} />
           <ul>
             {this.renderIngredientSearch()}
           </ul>
-
-          <label htmlFor="notes">Notes:</label>
-          <input type="text" name="notes" onChange={this.handleInputChange} />
-
-          <label htmlFor="arrangements">Arrangements:</label>
-          <input type="text" name="arrangements" />
-
+          <FormInput
+            type="text"
+            name="notes"
+            label="Notes:"
+            onChange={this.handleInputChange} />
+          <FormInput
+            type="text"
+            name="arrangements"
+            label="Arrangements:"
+            onChange={this.handleInputChange} />
           <input type="submit" />
         </form>
       </div>
