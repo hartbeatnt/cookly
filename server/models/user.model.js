@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { promisify } from 'bluebird';
-import { hash, compare } from 'bcrypt';
+import { hash, compare } from 'bcrypt-nodejs';
 import { sign } from 'jsonwebtoken';
 import { pick } from 'lodash';
 
