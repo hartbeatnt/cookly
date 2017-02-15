@@ -5,7 +5,7 @@ $_breakpoints: (
   "giant" : 1200px
 );
 
-@mixin breakpoint($point) {
+@mixin mq($point) {
   @if map-has-key($_breakpoints, $point) {
     @media (min-width: map-get($_breakpoints, $point)) { @content; }
   } @else {
