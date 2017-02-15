@@ -1,7 +1,6 @@
 import { promisify } from 'bluebird';
-import fs from 'fs';
+import Ingredients from '../models/ingredients.model';
 
-const readFile = promisify(fs.readFile);
 
 /**
  *
@@ -13,10 +12,10 @@ const readFile = promisify(fs.readFile);
  */
 export const fetchIngredients = async (req, res) => {
   try {
-    const ingredients = JSON.parse(await readFile('./data/ingredients.json', 'utf8'));
+    const ingredients = await Ingredients.findAll({});
     res.json({
       success: true,
-      ingredients,
+      ingredients
     });
   } catch (e) {
     res.json({
@@ -25,3 +24,7 @@ export const fetchIngredients = async (req, res) => {
     });
   }
 };
+
+export const createIngredient = async (req, res) => {
+  
+}
