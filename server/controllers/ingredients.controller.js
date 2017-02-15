@@ -15,7 +15,7 @@ export const fetchIngredients = async (req, res) => {
     const ingredients = await Ingredients.findAll({});
     res.json({
       success: true,
-      ingredients
+      ingredients,
     });
   } catch (e) {
     res.json({
@@ -26,5 +26,19 @@ export const fetchIngredients = async (req, res) => {
 };
 
 export const createIngredient = async (req, res) => {
-  
+  try {
+    const newIngredient = await Ingredients.create({
+      name: req.body.name,
+      name_en: req.body.name_en
+    })
+    res.json({
+      success: true,
+      newIngredient,
+    })
+  } catch (e) {
+    res.json({
+      success: false,
+      err    : e.toString(),
+    })
+  }
 }
