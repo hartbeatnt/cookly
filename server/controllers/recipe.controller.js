@@ -14,6 +14,25 @@ import { Recipe } from '../models';
  *    arrangements: ARRAY<INT>
  *  }
  */
+export const getAllRecipes = async (req, res) => {
+  try {
+    const recipes = await Recipe.findAll({});
+    res.json({
+      success: true,
+      recipes,
+    })
+  } catch (e) {
+    res.json({
+      success: false,
+      err    : e.toString(),
+    })
+  }
+};
+
+export const getOneRecipe = async (req, res) => {
+
+};
+
 export const addRecipe = async (req, res) => {
   req.checkBody('name', 'Please provide a recipe name').notEmpty();
   req.checkBody('ingredients', 'Please provide an ingredients list').notEmpty().isArray();
@@ -47,4 +66,12 @@ export const addRecipe = async (req, res) => {
   res.json({
     success: true,
   });
+};
+
+export const editRecipe = async (req, res) => {
+
+};
+
+export const deleteRecipe = async (req, res) => {
+
 };
