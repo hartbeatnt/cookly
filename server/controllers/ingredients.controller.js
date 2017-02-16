@@ -59,9 +59,16 @@ export const createIngredient = async (req, res) => {
 
 export const deleteIngredient = async (req, res) => {
   try {
+    const id = req.params.id;
     const ingredientToDelete = await Ingredients.findOne({
-      where: {id: req.params.id}
+      where: { id }
     })
+    if (!ingredientToDelete) {
+      return res.json({
+        success: false,
+        message: `cannot delete ingredient ${id} as it does not exist`
+      })
+    }
     const deletedIngredient = await ingredientToDelete.destroy()
     res.json({
       success: true,
