@@ -3,6 +3,13 @@ import { Recipe } from '../models';
 import { Ingredients } from '../models';
 import { RecipeIngredients } from '../models';
 
+/**
+ *
+ *  @route /api/recipe
+ *
+ *  @method {GET}
+ *
+ */
 export const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({});
@@ -17,14 +24,20 @@ export const getAllRecipes = async (req, res) => {
     })
   }
 };
-
+/**
+ *
+ *  @route /api/recipe/:id
+ *
+ *  @method {GET}
+ *
+ */
 export const getOneRecipe = async (req, res) => {
 
 };
 
 /**
  *
- *  @route /api/recipe/add
+ *  @route /api/recipe
  *
  *  @method {POST}
  *
@@ -42,7 +55,6 @@ export const addRecipe = async (req, res) => {
   if (await isRequestInvalid(req, res)) {
     return;
   }
-  let recipe;
   const { name, notes, cook_time, ingredients, arrangements } = req.body;
   try {
     /**
@@ -51,7 +63,7 @@ export const addRecipe = async (req, res) => {
      * before sending to the API Router. Otherwise, we will have to add some
      * logic here to ensure that the ingredients exist before creating the joins
      */
-    recipe = await Recipe.findOne({
+    let recipe = await Recipe.findOne({
       where: { name } 
     });
     if (recipe) {
@@ -60,6 +72,7 @@ export const addRecipe = async (req, res) => {
         message: `Recipe with name ${name} already exists!`,
       });
     }
+
     recipe = await Recipe.create({ 
       name, 
       notes, 
@@ -75,31 +88,64 @@ export const addRecipe = async (req, res) => {
     }).concat(arrangements.map(arrangement => {
       recipe.addDerivative(arrangement)
     })))
+
+    res.json({
+      success: true,
+      message: 'created recipe',
+      recipe : {
+        id: recipe.id,
+        name: recipe.name,
+        notes: recipe.notes,
+        cook_time: recipe.cook_time,
+        ingredients,
+        arrangements,
+      },
+    });
   } catch (e) {
-    console.log(e);
     res.json({
       success: false,
       message: `an error occured. e = ${JSON.stringify(e)}`,
     });
   }
-  res.json({
-    success: true,
-    message: 'created recipe',
-    recipe : {
-      id: recipe.id,
-      name: recipe.name,
-      notes: recipe.notes,
-      cook_time: recipe.cook_time,
-      ingredients,
-      arrangements,
-    },
-  });
 };
-
+/**
+ *
+ *  @route /api/recipe/:id
+ *
+ *  @method {PUT}
+ *
+ */
 export const editRecipe = async (req, res) => {
 
 };
-
+/**
+ *
+ *  @route /api/recipe/:id
+ *
+ *  @method {DELETE}
+ *
+ */
 export const deleteRecipe = async (req, res) => {
-
+  try {
+    const id = req.params.id;
+    const recipeToDelete = await Recipe.findOne({
+      where: { id }
+    })
+    if (!recipeToDelete) {
+      return res.json({
+        success: false,
+        message: `cannot delete recipe ${id} as it does not exist`
+      })
+    }
+    const deletedRecipe = await recipeToDelete.destroy()
+    res.json({
+      success: true,
+      deletedRecipe
+    })
+  } catch(e) {
+    res.json({
+      success: false,
+      err    : e.toString()
+    })
+  }
 };
