@@ -2,19 +2,6 @@ import { isRequestInvalid } from '../services/validation';
 import { Recipe } from '../models';
 import { Ingredients } from '../models';
 
-/**
- *
- *  @route /api/recipe/add
- *
- *  @method {POST}
- *
- *  @body {
- *    name        : STRING
- *    ingredients : ARRAY<{INT, STRING}>
- *    notes       : STRING
- *    arrangements: ARRAY<INT>
- *  }
- */
 export const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({});
@@ -34,6 +21,19 @@ export const getOneRecipe = async (req, res) => {
 
 };
 
+/**
+ *
+ *  @route /api/recipe/add
+ *
+ *  @method {POST}
+ *
+ *  @body {
+ *    name        : STRING
+ *    ingredients : ARRAY<{INT, STRING}>
+ *    notes       : STRING
+ *    arrangements: ARRAY<INT>
+ *  }
+ */
 export const addRecipe = async (req, res) => {
   req.checkBody('name', 'Please provide a recipe name').notEmpty();
   req.checkBody('ingredients', 'Please provide an ingredients list').notEmpty().isArray();
@@ -62,24 +62,8 @@ export const addRecipe = async (req, res) => {
     recipe = await Recipe.create({ 
       name, 
       notes, 
-      cook_time
-    }).then( recipe => {
-      ingredients.forEach(ingredient => {
-        console.log('!!!!!', ingredient)
-        recipe.addIngredients(ingredient.id, {
-          through: { quantity: ingredient.quantity}
-        }).catch(e=>console.log(e))
-      })
+      cook_time,
     })
-    res.json({
-      success: true,
-      message: 'created recipe',
-      recipe : {
-        name: 'was',
-        notes: 'this',
-        cook_time: 'the problem?',
-      },
-    });
   } catch (e) {
     console.log(e);
     res.json({
@@ -89,6 +73,12 @@ export const addRecipe = async (req, res) => {
   }
   res.json({
     success: true,
+    message: 'created recipe',
+    recipe : {
+      name: 'was',
+      notes: 'this',
+      cook_time: 'the problem?',
+    },
   });
 };
 

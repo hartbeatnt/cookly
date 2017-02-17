@@ -101,3 +101,15 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
     err               ?: STRING
     deletedIngredient ?: OBJECT {id, name, name_en, createdAt, updatedAt}
 ```
+
+**/api/recipe
+
+```plaintext
+{GET}
+  expected body
+    N/A
+
+  response 
+    success  : BOOLEAN
+    err     ?: STRING
+    recipes ?: ARRAY [{name, [ingredients], notes, [arrangements]}]
