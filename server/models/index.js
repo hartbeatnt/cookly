@@ -14,7 +14,7 @@ Recipe.belongsToMany(Recipe, {
 // recipe-ingredients join
 const RecipeIngredients = sequelize.define('RecipeIngredients', {
   quantity: {
-    type     : Sequelize.INTEGER,
+    type     : Sequelize.STRING,
     allowNull: false,
   },
 });

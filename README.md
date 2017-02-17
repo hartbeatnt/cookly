@@ -64,3 +64,40 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
 ```
 
 ---
+
+**/api/ingredients
+
+```plaintext
+{GET}
+  expected body
+    N/A
+
+  response
+    success      : BOOLEAN
+    err         ?: STRING
+    ingredients ?: ARRAY [{id, name, name_en, createdAt, updatedAt}]
+
+{POST}
+  expected body
+    name     : STRING
+    name_en ?: STRING
+
+  response
+    success      : BOOLEAN
+    err         ?: STRING
+    ingredients ?: ARRAY [{id, name, name_en, createdAt, updatedAt}]  
+
+```
+
+**/api/ingredients/:id
+
+```plaintext
+{DELETE}
+  expected body
+    N/A
+
+  response
+    success            : BOOLEAN
+    err               ?: STRING
+    deletedIngredient ?: OBJECT {id, name, name_en, createdAt, updatedAt}
+```

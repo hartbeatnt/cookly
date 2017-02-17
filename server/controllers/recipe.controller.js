@@ -1,5 +1,6 @@
 import { isRequestInvalid } from '../services/validation';
 import { Recipe } from '../models';
+import { Ingredients } from '../models';
 
 /**
  *
@@ -9,7 +10,7 @@ import { Recipe } from '../models';
  *
  *  @body {
  *    name        : STRING
- *    ingredients : ARRAY<INT>
+ *    ingredients : ARRAY<{INT, STRING}>
  *    notes       : STRING
  *    arrangements: ARRAY<INT>
  *  }
@@ -42,25 +43,48 @@ export const addRecipe = async (req, res) => {
   }
 
   try {
-    const { name, ingredients, notes, arrangements } = req.body;
-    let recipe = await Recipe.findOne({ name });
+    const { name, notes, cook_time, ingredients, arrangements } = req.body;
+    /**
+     * Since the client is front-loading all the ingredients, I am going
+     * to assume that the client will pre-validate all ingredients in the list
+     * before sending to the API Router. Otherwise, we will have to add some
+     * logic here to ensure that the ingredients exist before creating the joins
+     */
+    let recipe = await Recipe.findOne({
+      where: { name } 
+    });
     if (recipe) {
       return res.json({
         success: false,
         message: `Recipe with name ${name} already exists!`,
       });
     }
-    recipe = await Recipe.create({ name, ingredients, notes, arrangements });
+    recipe = await Recipe.create({ 
+      name, 
+      notes, 
+      cook_time
+    }).then( recipe => {
+      ingredients.forEach(ingredient => {
+        console.log('!!!!!', ingredient)
+        recipe.addIngredients(ingredient.id, {
+          through: { quantity: ingredient.quantity}
+        }).catch(e=>console.log(e))
+      })
+    })
     res.json({
       success: true,
       message: 'created recipe',
-      recipe : recipe.values(),
+      recipe : {
+        name: 'was',
+        notes: 'this',
+        cook_time: 'the problem?',
+      },
     });
   } catch (e) {
     console.log(e);
     res.json({
       success: false,
-      message: `an error occured. e = ${e.toString()}`,
+      message: `an error occured. e = ${JSON.stringify(e)}`,
     });
   }
   res.json({

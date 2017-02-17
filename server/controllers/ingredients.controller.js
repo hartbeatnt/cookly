@@ -8,7 +8,6 @@ import Ingredients from '../models/ingredients.model';
  *
  *  @method {GET}
  *
- *  DUMMY DATA: FIX LATER
  */
 export const fetchIngredients = async (req, res) => {
   try {
@@ -24,6 +23,13 @@ export const fetchIngredients = async (req, res) => {
     });
   }
 };
+/**
+ *
+ *  @route /api/ingredients
+ *
+ *  @method {POST}
+ *
+ */
 
 export const createIngredient = async (req, res) => {
   req.checkBody('name', 'Please provide an ingredient name').notEmpty();
@@ -56,7 +62,13 @@ export const createIngredient = async (req, res) => {
     })
   }
 };
-
+/**
+ *
+ *  @route /api/ingredients/:id
+ *
+ *  @method {DELETE}
+ *
+ */
 export const deleteIngredient = async (req, res) => {
   try {
     const id = req.params.id;
