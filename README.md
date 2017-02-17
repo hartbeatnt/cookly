@@ -113,3 +113,18 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
     success  : BOOLEAN
     err     ?: STRING
     recipes ?: ARRAY [{name, [ingredients], notes, [arrangements]}]
+
+{POST}
+  expected body
+    name          : STRING
+    notes         : STRING
+    ingredients   : ARRAY [{INT, STRING}]
+    cook_time    ?: STRING
+    arrangements ?: ARRAY [INT]
+
+  response 
+    success  : BOOLEAN
+    message  : STRING
+    err     ?: STRING
+    recipe  ?: OBJECT { id, name, notes, ?cooktime, ingredients, ?arrangements}
+    
