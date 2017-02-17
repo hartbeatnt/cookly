@@ -79,15 +79,29 @@ export const addRecipe = async (req, res) => {
       cook_time,
     })
     
-    await Promise.all(ingredients.map(ingredient => {
-      RecipeIngredients.create({
-        recipeId: recipe.id,
-        ingredientId: ingredient.id,
-        quantity: ingredient.quantity,
+    try {
+      await Promise.all(
+        ingredients.map(ingredient => {
+          return RecipeIngredients.create({
+            recipeId: recipe.id,
+            ingredientId: ingredient.id,
+            quantity: ingredient.quantity,
+          })
+        }).concat(
+        arrangements.map(arrangement => {
+          return recipe.addDerivative(arrangement)
+        })
+      ))
+    } catch (e) {
+      let recipeToDelete = await Recipe.findOne({
+        where: {id: recipe.id}
       })
-    }).concat(arrangements.map(arrangement => {
-      recipe.addDerivative(arrangement)
-    })))
+      const deletedRecipe = await recipeToDelete.destroy()
+      return res.json({
+        success: false,
+        message: `an error occured -- deleting recipe ${recipe.id}. e = ${JSON.stringify(e)}`,
+      })
+    }
 
     res.json({
       success: true,
