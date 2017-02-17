@@ -1,6 +1,7 @@
 import { isRequestInvalid } from '../services/validation';
 import { Recipe } from '../models';
 import { Ingredients } from '../models';
+import { RecipeIngredients } from '../models';
 
 export const getAllRecipes = async (req, res) => {
   try {
@@ -41,16 +42,16 @@ export const addRecipe = async (req, res) => {
   if (await isRequestInvalid(req, res)) {
     return;
   }
-
+  let recipe;
+  const { name, notes, cook_time, ingredients, arrangements } = req.body;
   try {
-    const { name, notes, cook_time, ingredients, arrangements } = req.body;
     /**
      * Since the client is front-loading all the ingredients, I am going
      * to assume that the client will pre-validate all ingredients in the list
      * before sending to the API Router. Otherwise, we will have to add some
      * logic here to ensure that the ingredients exist before creating the joins
      */
-    let recipe = await Recipe.findOne({
+    recipe = await Recipe.findOne({
       where: { name } 
     });
     if (recipe) {
@@ -64,6 +65,16 @@ export const addRecipe = async (req, res) => {
       notes, 
       cook_time,
     })
+    
+    await Promise.all(ingredients.map(ingredient => {
+      RecipeIngredients.create({
+        recipeId: recipe.id,
+        ingredientId: ingredient.id,
+        quantity: ingredient.quantity,
+      })
+    }).concat(arrangements.map(arrangement => {
+      recipe.addDerivative(arrangement)
+    })))
   } catch (e) {
     console.log(e);
     res.json({
@@ -75,9 +86,12 @@ export const addRecipe = async (req, res) => {
     success: true,
     message: 'created recipe',
     recipe : {
-      name: 'was',
-      notes: 'this',
-      cook_time: 'the problem?',
+      id: recipe.id,
+      name: recipe.name,
+      notes: recipe.notes,
+      cook_time: recipe.cook_time,
+      ingredients,
+      arrangements,
     },
   });
 };

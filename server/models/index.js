@@ -25,4 +25,5 @@ export {
   User,
   Ingredients,
   Recipe,
+  RecipeIngredients
 };
