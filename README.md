@@ -127,4 +127,17 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
     message  : STRING
     err     ?: STRING
     recipe  ?: OBJECT { id, name, notes, ?cooktime, ingredients, ?arrangements}
-    
+
+```
+
+**/api/recipe/:id
+
+```plaintext
+{DELETE}
+  expected body
+    N/A
+  
+  response
+    success        : BOOLEAN
+    err           ?: STRING
+    deletedRecipe ?: OBJECT {id, name, notes, cook_time, createdAt, updatedAt}
