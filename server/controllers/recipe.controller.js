@@ -144,10 +144,34 @@ export const addRecipe = async (req, res) => {
  *  @route /api/recipe/:id
  *
  *  @method {PUT}
+ * 
+ *  @body {
+ *    name        : STRING
+ *    ingredients : ARRAY<{INT, STRING}>
+ *    notes       : STRING
+ *    arrangements: ARRAY<INT>
+ *  }
  *
  */
 export const editRecipe = async (req, res) => {
-
+  try {
+    let recipe = await Recipe.findOne({
+      where: {id: req.params.id}
+    })
+    for (var key in req.body) {
+      recipe[key] = req.body[key]
+    }
+    recipe = await recipe.save()
+    res.json({
+      success: true,
+      recipe,
+    })
+  } catch (e) {
+    res.json({
+      success: false,
+      recipe,
+    })
+  }
 };
 /**
  *
