@@ -133,6 +133,15 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
 **/api/recipe/:id
 
 ```plaintext
+{GET}
+  expected body
+    N/A
+  
+  response 
+    success : BOOLEAN
+    err    ?: STRING
+    recipe ?: OBJECT {id, name, notes, cookt_time, createdAt, updatedAt, [ingredients], [derivative]}
+
 {DELETE}
   expected body
     N/A
