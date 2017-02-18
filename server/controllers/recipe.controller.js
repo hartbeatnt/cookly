@@ -33,12 +33,22 @@ export const getAllRecipes = async (req, res) => {
  */
 export const getOneRecipe = async (req, res) => {
   try {
-    const recipe = Recipe.findOne({
-      where: {id: req.params.id}
+    const recipe = await Recipe.findOne({
+      where: {id: req.params.id},
+      include: [Ingredients, {
+        model: Recipe,
+        as: "derivative"
+      }]
     })
-    
+    res.json({
+      success: true,
+      recipe,
+    })
   } catch (e) {
-
+    res.json({
+      success: false,
+      err    : e.toString(),
+    })
   }
 };
 
