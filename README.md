@@ -150,3 +150,14 @@ When committing, prefix your commits with `:EMOJI_NAME:` to categorize your comm
     success        : BOOLEAN
     err           ?: STRING
     deletedRecipe ?: OBJECT {id, name, notes, cook_time, createdAt, updatedAt}
+
+{PUT}
+  expected body
+    name         ?: STRING
+    notes        ?: STRING
+    cook_time    ?: STRING
+
+  response
+    success : BOOLEAN
+    err    ?: STRING
+    recipe ?: OBJECT {id, name, notes, cook_time, createdAt, updatedAt}

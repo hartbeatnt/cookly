@@ -169,7 +169,7 @@ export const editRecipe = async (req, res) => {
   } catch (e) {
     res.json({
       success: false,
-      recipe,
+      message: `an error occured. e = ${JSON.stringify(e)}`,
     })
   }
 };
