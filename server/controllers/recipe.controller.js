@@ -32,7 +32,14 @@ export const getAllRecipes = async (req, res) => {
  *
  */
 export const getOneRecipe = async (req, res) => {
+  try {
+    const recipe = Recipe.findOne({
+      where: {id: req.params.id}
+    })
+    
+  } catch (e) {
 
+  }
 };
 
 /**
