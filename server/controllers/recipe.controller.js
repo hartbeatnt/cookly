@@ -116,7 +116,7 @@ export const addRecipe = async (req, res) => {
       const deletedRecipe = await recipeToDelete.destroy()
       return res.json({
         success: false,
-        message: `an error occured -- deleting recipe ${recipe.id}. e = ${JSON.stringify(e)}`,
+        message: `an error occured -- deleting recipe ${recipe.id}. e = ${e.toString()}`,
       })
     }
 
@@ -135,7 +135,7 @@ export const addRecipe = async (req, res) => {
   } catch (e) {
     res.json({
       success: false,
-      message: `an error occured. e = ${JSON.stringify(e)}`,
+      message: `an error occured. e = ${e.toString()}`,
     });
   }
 };
@@ -159,6 +159,8 @@ export const editRecipe = async (req, res) => {
       where: {id: req.params.id}
     })
     for (var key in req.body) {
+      // lets do some validating?
+      // also add ability to update ingredients/arrangements
       recipe[key] = req.body[key]
     }
     recipe = await recipe.save()
